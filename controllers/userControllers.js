@@ -1,5 +1,7 @@
 const { ObjectId } = require('mongoose').Types;
-const { User, Thoughts, Reactions } = require('../models');
+const { User } = require('../models/user');
+const { Thoughts } = require('../models/thoughts');
+const { Reactions } = require('../models/reactions');
 // const User = require('../models/user');
 
 // Aggregate function to get the number of students overall
