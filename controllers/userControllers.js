@@ -4,7 +4,7 @@ const { Thoughts } = require('../models/thoughts');
 const { Reactions } = require('../models/reactions');
 // const User = require('../models/user');
 
-// Aggregate function to get the number of students overall
+// Aggregate function to get the number of users overall
 const headCount = async () => {
   const numberOfUser = await User.aggregate()
     .count('userCount');
@@ -12,9 +12,45 @@ const headCount = async () => {
 }
 
 // Aggregate function for getting the overall grade using $avg
+// const thoughts = async (userId) =>
+//   User.aggregate([
+//     // only include the given user by using $match
+//     { $match: { _id: new ObjectId(userId) } },
+//     {
+//     //   $unwind: '$assignments',
+//     },
+//     {
+//       $group: {
+//         _id: new ObjectId(userId),
+//         // overallGrade: { $avg: '$assignments.score' },
+//       },
+//     },
+//   ]);
 const thoughts = async (userId) =>
-  Student.aggregate([
-    // only include the given student by using $match
+  User.aggregate([
+    // only include the given user by using $match
+    { $match: { _id: new ObjectId(thoughts) } },
+    {
+    //   $unwind: '$assignments',
+    },
+    {
+      $group: {
+        _id: new ObjectId(userId),
+        // overallGrade: { $avg: '$assignments.score' },
+      },
+    },
+  ]);
+
+
+//   var ThoughtsSchema = new Schema({
+//     categories: [{ 
+//       type: Schema.Types.ObjectId, 
+//       ref: 'Thought' }]
+//   });
+
+const friends = async (userId) =>
+  User.aggregate([
+    // only include the given user by using $match
     { $match: { _id: new ObjectId(userId) } },
     {
     //   $unwind: '$assignments',
@@ -28,13 +64,13 @@ const thoughts = async (userId) =>
   ]);
 
 module.exports = {
-  // Get all students
+  // Get all users
   async getUser(req, res) {
     try {
       const user = await User.find();
 
       const userObj = {
-        users,
+        user,
         headCount: await headCount(),
       };
 
@@ -44,7 +80,7 @@ module.exports = {
       return res.status(500).json(err);
     }
   },
-  // Get a single student
+  // Get a single user
   async getSingleUser(req, res) {
     try {
       const user = await User.findOne({ _id: req.params.userId })
@@ -63,7 +99,7 @@ module.exports = {
       return res.status(500).json(err);
     }
   },
-  // create a new student
+  // create a new user
   async createUser(req, res) {
     try {
       const user = await User.create(req.body);
@@ -72,7 +108,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // Delete a student and remove them from the course
+  // Delete a user and remove them from the course
   async deleteUser(req, res) {
     try {
       const user = await User.findOneAndRemove({ _id: req.params.userId });
@@ -100,7 +136,7 @@ module.exports = {
     }
   },
 
-  // Add an assignment to a student
+  // Add an assignment to a user
   async addThought(req, res) {
     console.log('You are adding an thought');
     console.log(req.body);
@@ -123,7 +159,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // Remove assignment from a student
+  // Remove assignment from a user
   async removethought(req, res) {
     try {
       const user = await User.findOneAndUpdate(

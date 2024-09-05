@@ -13,7 +13,7 @@ const {
 
 
   router
-  .route('/:courseId')
+  .route('/:thoughtId')
   .get(getSingleThoughts)
   .put(updateThoughts)
   .delete(deleteThoughts);
