@@ -34,3 +34,5 @@ const reactionSchema = new Schema(
 const Reaction = model('reaction', reactionSchema);
 
 module.exports = Reaction;
+
+// not a model, it will be a subdocument - figure this out
