@@ -2,6 +2,12 @@ const { ObjectId } = require('mongoose').Types;
 const Thought = require('../models/thoughts');
 const Reactions = require('../models/reactions');
 
+const headCount = async () => {
+    const numberOfThoughts = await Thought.aggregate()
+      .count('thoughtCount');
+    return numberOfThoughts;
+  }
+
 module.exports = {
     async getThoughts (req, res) {
         try {
