@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const userSchema = require('../models/user');
+const userSchema = require('./User');
 // const { options } = require('../routes');
 
 // Schema to create User model
@@ -16,8 +16,7 @@ const reactionSchema = new Schema(
       },
       username: {
       type: String,
-      required: true,
-      user: [userSchema]
+      required: true
     },
     createdAt: {
         type: Date,
