@@ -95,27 +95,35 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // Delete a user and remove them from the course
+// update a user
+  async updateUser(req, res) {
+    try {
+  const user = await User.findOneAndUpdate(
+    { users: req.params.userId },
+    { $pull: { users: req.params.userId } },
+    { new: true }
+  );
+
+  if (!user) {
+    return res.status(404).json({
+      message: 'No user found',
+    });
+  }
+
+  res.json({ message: 'User successfully updated' });
+} catch (err) {
+  console.log(err);
+  res.status(500).json(err);
+}
+},
+
+  // Delete a user 
   async deleteUser(req, res) {
     try {
       const user = await User.findOneAndRemove({ _id: req.params.userId });
-
       if (!user) {
         return res.status(404).json({ message: 'No such user exists' });
       }
-
-      const thought = await Thoughts.findOneAndUpdate(
-        { users: req.params.userId },
-        { $pull: { users: req.params.userId } },
-        { new: true }
-      );
-
-      if (!thought) {
-        return res.status(404).json({
-          message: 'User deleted, but no thoughts found',
-        });
-      }
-
       res.json({ message: 'User successfully deleted' });
     } catch (err) {
       console.log(err);
@@ -123,7 +131,8 @@ module.exports = {
     }
   },
 
-  // Add an assignment to a user
+ 
+  // Add an thought to a user
   async addThought(req, res) {
     console.log('You are adding an thought');
     console.log(req.body);
@@ -146,7 +155,7 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // Remove assignment from a user
+  // Remove thought from a user
   async removethought(req, res) {
     try {
       const user = await User.findOneAndUpdate(
