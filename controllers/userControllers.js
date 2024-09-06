@@ -42,10 +42,13 @@ module.exports = {
 // update a user
   async updateUser(req, res) {
     try {
-  const user = await User.findOneAndUpdate(
-    { users: req.params.userId },
-    { $pull: { users: req.params.userId } },
+  const user = await User.findByIdAndUpdate(
+    // { users: req.params.userId },
+    { _id: req.params.userId },
+    { $set: req.body},
     { new: true }
+    // { $pull: { users: req.params.userId } },
+    // { $push: { users: req.body} },
   );
 
   if (!user) {
@@ -64,7 +67,8 @@ module.exports = {
   // Delete a user 
   async deleteUser(req, res) {
     try {
-      const user = await User.findOneAndRemove({ _id: req.params.userId });
+        // _id: req.params.userId 
+      const user = await User.findByIdAndDelete({ _id: req.params.userId });
       if (!user) {
         return res.status(404).json({ message: 'No such user exists' });
       }

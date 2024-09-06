@@ -51,9 +51,11 @@ module.exports = {
     async updateThoughts (req, res) {
         try {
         const thought = await Thought.findOneAndUpdate(
-        { thought: req.params.thoughtId },
+            //  { thought: req.params.thoughtId },
+        { _id: req.params.thoughtId },
         { $pull: { thought: req.params.thoughtId } },
-        { new: true }
+        { $set: req.body},
+        // { new: true }
       );
 
       if (!thought) {
@@ -79,7 +81,7 @@ module.exports = {
     },
     async deleteThoughts (req, res) {
     try {
-        const thought = await Thought.findOneAndDelete({ _id: req.params.thoughtId });
+        const thought = await Thought.findByIdAndDelete({ _id: req.params.thoughtId });
         if (!thought) {
         return res.status(404).json({ message: 'No such thought exists' });
       }
