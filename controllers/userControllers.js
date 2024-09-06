@@ -1,7 +1,7 @@
 const { ObjectId } = require('mongoose').Types;
-const { User } = require('../models/user');
-const { Thoughts } = require('../models/thoughts');
-const { Reactions } = require('../models/reactions');
+const User = require('../models/user');
+const Thoughts = require('../models/thoughts');
+const Reactions = require('../models/reactions');
 // const User = require('../models/user');
 
 // Aggregate function to get the number of users overall
@@ -11,8 +11,30 @@ const headCount = async () => {
   return numberOfUser;
 }
 
-// Aggregate function for getting the overall grade using $avg
+
 // const thoughts = async (userId) =>
+//   User.aggregate([
+//     // only include the given user by using $match
+//     { $match: { _id: new ObjectId(thoughts) } },
+//     {
+//     //   $unwind: '$assignments',
+//     },
+//     {
+//       $group: {
+//         _id: new ObjectId(userId),
+//         // overallGrade: { $avg: '$assignments.score' },
+//       },
+//     },
+//   ]);
+
+
+//   var ThoughtsSchema = new Schema({
+//     categories: [{ 
+//       type: Schema.Types.ObjectId, 
+//       ref: 'Thought' }]
+//   });
+
+// const friends = async (userId) =>
 //   User.aggregate([
 //     // only include the given user by using $match
 //     { $match: { _id: new ObjectId(userId) } },
@@ -26,42 +48,6 @@ const headCount = async () => {
 //       },
 //     },
 //   ]);
-const thoughts = async (userId) =>
-  User.aggregate([
-    // only include the given user by using $match
-    { $match: { _id: new ObjectId(thoughts) } },
-    {
-    //   $unwind: '$assignments',
-    },
-    {
-      $group: {
-        _id: new ObjectId(userId),
-        // overallGrade: { $avg: '$assignments.score' },
-      },
-    },
-  ]);
-
-
-//   var ThoughtsSchema = new Schema({
-//     categories: [{ 
-//       type: Schema.Types.ObjectId, 
-//       ref: 'Thought' }]
-//   });
-
-const friends = async (userId) =>
-  User.aggregate([
-    // only include the given user by using $match
-    { $match: { _id: new ObjectId(userId) } },
-    {
-    //   $unwind: '$assignments',
-    },
-    {
-      $group: {
-        _id: new ObjectId(userId),
-        // overallGrade: { $avg: '$assignments.score' },
-      },
-    },
-  ]);
 
 module.exports = {
   // Get all users
@@ -75,6 +61,7 @@ module.exports = {
       };
 
       res.json(userObj);
+      console.log(userObj)
     } catch (err) {
       console.log(err);
       return res.status(500).json(err);

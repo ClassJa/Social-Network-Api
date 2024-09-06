@@ -1,14 +1,20 @@
+const { ObjectId } = require('mongoose').Types;
+const Thought = require('../models/thoughts');
+const Reactions = require('../models/reactions');
+
 module.exports = {
     async getThoughts (req, res) {
         try {
-            const thoughts = await User.find();
+            // how to link the user to thoughts?
+            const thoughts = await Thought.find();
       
-            const userObj = {
+            const thoughtObj = {
               user,
+              thoughts,
               headCount: await headCount(thoughts),
             };
       
-            res.json(userObj);
+            res.json(thoughtObj);
           } catch (err) {
             console.log(err);
             return res.status(500).json(err);
@@ -16,16 +22,16 @@ module.exports = {
         },
     async getSingleThoughts (req, res) {
     try {
-        const student = await User.findOne({ _id: req.params.userId })
+        const thought = await Thought.findOne({ _id: req.params.thoughtId })
           .select('-__v');
   
-        if (!student) {
-          return res.status(404).json({ message: 'No student with that ID' })
+        if (!thought) {
+          return res.status(404).json({ message: 'No thought with that ID' })
         }
   
         res.json({
           user,
-          thought: await thought(req.params.userId),
+          thought: await thought(req.params.thoughtId),
         });
       } catch (err) {
         console.log(err);
@@ -46,7 +52,7 @@ module.exports = {
         try {
         const thought = await Thought.findOneAndUpdate(
         { thought: req.params.thoughtId },
-        { $pull: { user: req.params.userId } },
+        { $pull: { thought: req.params.thoughtId } },
         { new: true }
       );
 
@@ -66,7 +72,7 @@ module.exports = {
     try {
         const thought = await Thought.findOneAndRemove({ _id: req.params.thoughtId });
         if (!thought) {
-        return res.status(404).json({ message: 'No such though exists' });
+        return res.status(404).json({ message: 'No such thought exists' });
       }
       res.json({ message: 'Thought successfully deleted' });
     }
