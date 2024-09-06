@@ -2,6 +2,8 @@ const { ObjectId } = require('mongoose').Types;
 const User = require('../models/user');
 const Thoughts = require('../models/thoughts');
 const Reactions = require('../models/reactions');
+// const friendSchema = require('../models/friends')
+const Friend = require('../models/friends')
 // const User = require('../models/user');
 
 // Aggregate function to get the number of users overall
@@ -10,55 +12,27 @@ const headCount = async () => {
     .count('userCount');
   return numberOfUser;
 }
-
-
-// const thoughts = async (userId) =>
-//   User.aggregate([
-//     // only include the given user by using $match
-//     { $match: { _id: new ObjectId(thoughts) } },
-//     {
-//     //   $unwind: '$assignments',
-//     },
-//     {
-//       $group: {
-//         _id: new ObjectId(userId),
-//         // overallGrade: { $avg: '$assignments.score' },
-//       },
-//     },
-//   ]);
-
-
-//   var ThoughtsSchema = new Schema({
-//     categories: [{ 
-//       type: Schema.Types.ObjectId, 
-//       ref: 'Thought' }]
-//   });
-
-// const friends = async (userId) =>
-//   User.aggregate([
-//     // only include the given user by using $match
-//     { $match: { _id: new ObjectId(userId) } },
-//     {
-//     //   $unwind: '$assignments',
-//     },
-//     {
-//       $group: {
-//         _id: new ObjectId(userId),
-//         // overallGrade: { $avg: '$assignments.score' },
-//       },
-//     },
-//   ]);
-
+const friendCount = async () => {
+    const numberOfFriends = await Friend.aggregate()
+      .count('friendCount');
+    return numberOfFriends;
+  }
 module.exports = {
   // Get all users
   async getUser(req, res) {
     try {
       const user = await User.find();
+    //   const friends = await User.friends.count();
+    //   const thoughts = await User.thoughts.count();
 
       const userObj = {
         user,
         headCount: await headCount(),
+        friends: await friendCount()
+        // thoughts
       };
+
+      
 
       res.json(userObj);
       console.log(userObj)
