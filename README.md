@@ -12,7 +12,10 @@ https://drive.google.com/file/d/1TV3ftq8Y9AtAMK5OFcu6rNkGqBULcZKt/view?usp=drive
 Sought out assistance from the websites and resources listed below: 
 - [x] TA - Akon
 - [x] AskBCS
-- [x]  https://stackoverflow.com/questions/18022365/mongoose-validate-email-syntax 
+- [x] https://stackoverflow.com/questions/18022365/mongoose-validate-email-syntax 
+- [x] https://stackoverflow.com/questions/12866494/how-do-you-reinstall-an-apps-dependencies-using-npm
+- [x] https://stackoverflow.com/questions/18022365/mongoose-validate-email-syntax
+- [x] https://stackoverflow.com/questions/45505123/nodejs-express-mongoose-put-request-problems-with-save-method
 
 ## License 
 MIT
